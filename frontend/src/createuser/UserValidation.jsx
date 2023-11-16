@@ -31,7 +31,7 @@ function LoginValidation(values) {
         errors.password = "Password is incorrect ! "+values.password;
         }
     else{
-        errors.password = values.password;
+        errors.password = "";
     }
 
 

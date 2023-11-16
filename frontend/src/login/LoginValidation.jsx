@@ -20,7 +20,7 @@ else if(!password_pattern.test(values.password))  {
     errors.password = "Password is incorrect ! "+values.password;
     }
 else{
-  errors.password = values.password;
+  errors.password = "";
 }
 return errors;
 }
