@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import "../css/viewpages.css";
+import Header from "../component/Header";
 
 function ViewUser() {
   const { id } = useParams();
@@ -85,9 +87,10 @@ function ViewUser() {
   };
 
   return (
-    <div>
-      <div>
-        <form>
+    <div className="viewer">
+      <Header className="left"/>
+      <div className="middle" >
+        <form className="form">
           
           <div>
             <label htmlFor="name">Name</label>
@@ -103,21 +106,24 @@ function ViewUser() {
           </div>
           <div>
             <label htmlFor="gender">
-              <strong>Gender</strong>
+              Gender
             </label>
             <div>
-              <label>
+              <label className="radio_text">
                 <input
+                className="radio_btn"
                   type="radio"
                   name="gender"
                   value="male"
                   checked={userDetails.gender === "male"}
                   readOnly
+                  style = {{margin:0}}
                 />
                 Male
               </label>
-              <label>
+              <label className="radio_text">
                 <input
+                className="radio_btn"
                   type="radio"
                   name="gender"
                   value="female"
@@ -143,10 +149,10 @@ function ViewUser() {
           </div>
         </form>
       </div>
-      <div>
+      <div className="right">
         
         {hdata.map((item) => (
-          <form key={item.id}>
+          <form key={item.id}  className="form">
             <div>
               <label htmlFor={`hobbyName-${item.hobbies_id}`}>Hobby Name</label>
               <input

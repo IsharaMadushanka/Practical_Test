@@ -5,7 +5,7 @@ import Login from './login/LoginPage';
 import CreateHobby from './pages/Createhobby';
 import CreateUser from './createuser/CreateUser';
 import Hobby from './pages/Hobby';
-import EditHobby from './component/EditHobby';
+import EditHobby from './pages/EditHobby';
 import AdminHome from './pages/Adminhome';
 import EditUser from './pages/EditUser';
 import ViewUser from './pages/ViewUser';

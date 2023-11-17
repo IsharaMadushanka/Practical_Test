@@ -1,0 +1,30 @@
+.form{
+    border: 2px solid #0d987d;
+}
+.viewer{
+    display: flex;
+    flex-direction: row;
+}
+.left{
+    float: left;
+    width: 25%;
+}
+.middle{
+    float: auto;
+    width: 35%;
+    margin-top: 100px;
+    margin-left: 50px;
+}
+.right{
+    float: right;
+    width:35%;
+    margin-top: 100px;
+    margin-left: 50px;
+    padding: 20px;
+}
+.radio_text{
+   vertical-align: middle;
+}
+.form{
+    padding: 20px;
+}

@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import "../css/hobby.css";
 
 function Createhobby() {
    const navigate = useNavigate();
@@ -60,18 +60,18 @@ function Createhobby() {
     }
   return (
     <div>
-        <div>
-          <div></div>
+        <div className="formcreatehobby">
+          
             <form action="" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="hobby">Add new hobby !!!</label>
-                <input type="text" name="hobby" placeholder="new hobby" onChange={handleInput}/>
+                <input type="text" name="hobby" placeholder="new hobby" onChange={handleInput} className="text_input"/>
               </div>
               <div>
                 <label htmlFor="description">Description</label>
                 <input type="text" name="description" placeholder="add a description" onChange={handleInput}/>
               </div>
-                <button type="submit"><strong>Add</strong></button>
+                <button type="submit" className="Add"><strong>Add</strong></button>
             </form>
         </div>
     </div>

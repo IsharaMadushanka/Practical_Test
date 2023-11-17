@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import "../css/hobby.css";
 
 function Createhobby() {
   const { id } = useParams();
@@ -75,10 +76,11 @@ function Createhobby() {
     <div>
       <div>
         <div></div>
-        <form action="" onSubmit={handleSubmit}>
+        <form  className= "formcreatehobby" action="" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="hobby">Update Hobby</label>
             <input
+              className="text_input"
               type="text"
               name="hobby"
               placeholder={value.hobby}
@@ -90,6 +92,7 @@ function Createhobby() {
             <label htmlFor="description">Description</label>
           
             <input
+            className="text_input"
               type="text"
               name="description"
               placeholder={value.description}
@@ -97,7 +100,7 @@ function Createhobby() {
               onChange={handleInput}
             />
           </div>
-          <button type="submit">
+          <button className ="Add" type="submit">
             <strong>Update</strong>
           </button>
         </form>

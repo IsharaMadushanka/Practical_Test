@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import "../css/assign.css";
 
 function AssignHobby() {
   
@@ -91,16 +92,17 @@ function AssignHobby() {
   }, []);
 
   return (
-    <div>
+    <div className="page-container-assign">
+       <h2>Select Hobbies</h2>
       <div>
         {hData.map((hobbyId) => (
-          <span key={hobbyId}>{getHobbyNameById(hobbyId)}</span>
+          <span key={hobbyId} className="selection">{getHobbyNameById(hobbyId)}</span>
         ))}
       </div>
 
       <div className="popup">
         <div className="popup-content">
-          <h2>Select Hobbies</h2>
+         
           <form onSubmit={handleSubmit}>
             {data.map((hobby) => (
               <div key={hobby.id}>

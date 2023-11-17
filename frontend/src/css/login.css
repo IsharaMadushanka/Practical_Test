@@ -1,0 +1,55 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+  }
+  
+  form {
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    color:#016551;
+    margin-bottom: 2px;
+    margin-top: 5px;
+  }
+  .submituser {
+    color:#016551;
+  }
+  input {
+    width: 80%;
+    padding: 5px;
+    font-size: 16px;
+  }
+  
+  .password-input {
+    position: relative;
+  }
+  
+  .buttoneye {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .loginform{
+    border: 5px solid #016551;
+    margin: 150px;
+    padding: 5px;
+  }
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }

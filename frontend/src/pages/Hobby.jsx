@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../css/adminhome.css";
+import Header from "../component/Header";
 
 function Home() {
     const [data, setData] = useState([]);
@@ -68,8 +70,10 @@ function Home() {
 
     
     return (
-        <div>
-            <button type="" onClick={handleCreate}><strong>Add </strong></button>
+    <div className="container">
+      <Header />
+      <div className="hobbycontainer">
+            <button type="" onClick={handleCreate} className="create-button" style = {{width:100}}><strong>Add </strong></button>
           <h2>Hobbies</h2>
           <table>
             <thead>
@@ -85,13 +89,13 @@ function Home() {
                   <td>{item.name}</td>
                   <td>{item.description}</td>
                   <td>
-                    <button onClick={() => handleDelete(item.id)}>
+                    <button onClick={() => handleDelete(item.id)} className="btn" >
                       Delete
                     </button>
-                    <button onClick={() => handleView(item.id)}>
+                    <button onClick={() => handleView(item.id)} className="btn">
                       View
                     </button>
-                    <button onClick={() => handleEdit(item.id)}>
+                    <button onClick={() => handleEdit(item.id)} className="btn">
                       Edit
                     </button>
                   </td>
@@ -100,6 +104,7 @@ function Home() {
             </tbody>
           </table>
         </div>
+    </div>
       );
     
     

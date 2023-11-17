@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import "../css/adminhome.css";
+import Header from "../component/Header";
 
 function Home() {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -61,10 +63,10 @@ function Home() {
   const handleOptionChange = (event) => {
     const filterValue = event.target.value;
 
-    if (filterValue === "boy") {
+    if (filterValue === "male") {
       const filtered = sorted.filter((item) => item.sex === "male");
       setData(filtered);
-    } else if (filterValue === "girl") {
+    } else if (filterValue === "female") {
       const filtered = sorted.filter((item) => item.sex === "female");
       setData(filtered);
     } else {
@@ -99,51 +101,20 @@ function Home() {
     }
   };
 
-  const handleFilter = () => {
-    // Add any specific filter logic here if needed
-  };
 
   return (
-    <div>
-      <div>
-        <button onClick={handleFilter}>Filter</button>
-        <Select options={options} onChange={handleChange} />
-      </div>
-      <div>
-        <label className="radio">
-          <input
-            type="radio"
-            value="boy"
-            checked={selectedOption === "boy"}
-            onChange={handleOptionChange}
-          />
-          Boy
-        </label>
-        <br />
-        <label className="radio">
-          <input
-            type="radio"
-            value="girl"
-            checked={selectedOption === "girl"}
-            onChange={handleOptionChange}
-          />
-          Girl
-        </label>
-        <br />
-        <label className="radio">
-          <input
-            type="radio"
-            value="any"
-            checked={selectedOption === "any"}
-            onChange={handleOptionChange}
-          />
-          All
-        </label>
-      </div>
-      <div>
-        <button type="" onClick={handleCreate}>
-          <strong>Add</strong>
+    <div className="container">
+      
+      <Header  className="header"/>
+     
+
+      <div className="body">
+        <div className="button-container">
+        <button type="" onClick={handleCreate} className="create-button">
+          <strong>Create New User</strong>
         </button>
+        </div>
+        
         <h2>Users</h2>
         <table>
           <thead>
@@ -159,19 +130,57 @@ function Home() {
                 <td>{item.name}</td>
                 <td>{item.email}</td>
                 <td>
-                  <button onClick={() => handleDelete(item.id)}>
+                  <button onClick={() => handleDelete(item.id)} className="btn">
                     Delete
                   </button>
-                  <button onClick={() => handleView(item.id)}>View</button>
-                  <button onClick={() => handleEdit(item.id)}>Edit</button>
+                  <button onClick={() => handleView(item.id)} className="btn">View</button>
+                  <button onClick={() => handleEdit(item.id)} className="btn">Edit</button>
                   
-                  <button onClick={() => handleAssign(item.id)}>Assign Hobby</button>
+                  <button onClick={() => handleAssign(item.id)} className="btn">Assign Hobby</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <div className="filter">
+          <div className="selectmenu">        
+            <Select options={options} onChange={handleChange} />
+          </div>
+        <div className="radiomenu">
+          <label className="radio">
+          
+            <input
+              type="radio"
+              value="male"
+              checked={selectedOption === "male"}
+              onChange={handleOptionChange}
+            />
+            male
+          </label>
+          
+          <label className="radio">
+            <input
+              type="radio"
+              value="female"
+              checked={selectedOption === "female"}
+              onChange={handleOptionChange}
+            />
+            female
+          </label>
+          
+          <label className="radio">
+            <input
+              type="radio"
+              value="any"
+              checked={selectedOption === "any"}
+              onChange={handleOptionChange}
+            />
+            All
+          </label>
+        </div>
+      </div>
+
     </div>
   );
 }

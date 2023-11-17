@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import {  useNavigate } from "react-router-dom";
 import Validation from "./LoginValidation";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import "../css/login.css";
 
 function Login() {
   const [values, setValues] = useState({
@@ -60,10 +61,10 @@ function Login() {
   };
 
   return (
-    <div>
-      <form action="" onSubmit={handleSubmit}>
+    <div className="login-container">
+      <form action="" onSubmit={handleSubmit} className="loginform">
         
-        <div>
+        <div className="form-group">
           <div>
             <label htmlFor="email">
               <strong>Email</strong>
@@ -75,30 +76,29 @@ function Login() {
               placeholder="Email"
               onChange={handleInput}
             />
-            {errors.email && <span>{errors.email}</span>}
+            {errors.email && <span className="error-message">{errors.email}</span>}
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="password">
               <strong>Password</strong>
-              
             </label>
-            <div>
+            <div className="password-input">
               <input
                 name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 onChange={handleInput}
               />
-              <button
+              <button className="buttoneye"
                 type="button"
                 onClick={togglePasswordVisibility}
               >
                 {showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
-            {errors.password && <span>{errors.password}</span>}
+            {errors.password && <span className="error-message">{errors.password}</span>}
           </div>
-          <button type="submit">
+          <button type="submit" className="submituser">
             <strong>Login</strong>
           </button>
           

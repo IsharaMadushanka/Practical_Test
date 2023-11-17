@@ -1,0 +1,19 @@
+.formcreatehobby{
+    margin-left: 35%;
+    margin-top: 10%;
+    border: 1px solid #016551;
+    width: 25%;
+    height: auto;
+    padding-bottom: 5px;
+}
+.text_input{
+    color: #016551;   
+}
+.Add{
+    margin-top: 2px;
+    width: 100px;
+    color: #016551;
+}
+::placeholder{
+    color: #0d987d; 
+}
