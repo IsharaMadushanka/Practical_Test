@@ -5,8 +5,9 @@ import Validation from "../createuser/UserValidation";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 function EditUser() {
-  const { id } = useParams();
+
   const navigate = useNavigate();
+  const [uid,setUid] = useState();
   const [value, setValue] = useState({
     name: "",
     email: "",
@@ -28,12 +29,13 @@ const [errors, setErrors] = useState({});
          .get("http://localhost:8080")
          .then((res)=>{
           if(
-            res.data.Valid && (res.data.Role ==="admin"))
+            res.data.Valid && (res.data.Role ==="user"))
             {
-              console.log("welcome admin");
+              console.log("welcome user");
+              setUid(res.data.Userid);
             }
           else{
-            console.log("Not a admin");
+            console.log("Not a user");
             navigate("/");
           }
          })
@@ -41,8 +43,9 @@ const [errors, setErrors] = useState({});
 
   },[]);
   useEffect(() => {
+    console.log("hmm");
     axios
-      .get(`http://localhost:8080/get_a_user/${id}`)
+      .get(`http://localhost:8080/get_a_user/${uid}`)
       .then((res) => {
         setValue({
           name: res.data.name || "",
@@ -58,7 +61,7 @@ const [errors, setErrors] = useState({});
       });
 
     axios
-    .get(`http://localhost:8080/userhobby/${id}`)
+    .get(`http://localhost:8080/userhobby/${uid}`)
     .then((res) => {
       setHData(res.data);
       res.data.forEach((item) => {
@@ -68,12 +71,11 @@ const [errors, setErrors] = useState({});
     .catch((error) => {
       console.error("Error fetching hobby data from backend:", error);
     });
-}, [id]);
+}, [uid]);
 const getHobby = (hobbyid) => {
   axios
     .get(`http://localhost:8080/get_a_hobby/${hobbyid}`)
     .then((res) => {
-      
       setHobbyDetails((prevDetails) => ({
         ...prevDetails,
         [hobbyid]: {
@@ -109,7 +111,7 @@ const getHobby = (hobbyid) => {
     }
 
     axios
-      .post(`http://localhost:8080/updateuser/${id}`, value) 
+      .post(`http://localhost:8080/updateuser/${uid}`, value) 
       .then((res) => {
         console.log(res.data.Status);
         if (res.data.Status === "Success") {
@@ -122,7 +124,7 @@ const getHobby = (hobbyid) => {
             homeNum: ""
           });
           alert("Success!!");
-          navigate("/Adminhome");
+          navigate("/Userhome");
         } else {
           console.log(res.data.Error);
           alert("Error: Check again");
@@ -143,7 +145,7 @@ const getHobby = (hobbyid) => {
     }
 
     axios
-      .post(`http://localhost:8080/updatepassword/${id}`, value) 
+      .post(`http://localhost:8080/updatepassword/${uid}`, value) 
       .then((res) => {
         console.log(res.data.Status);
         if (res.data.Status === "Success") {

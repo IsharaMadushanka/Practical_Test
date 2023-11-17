@@ -9,6 +9,10 @@ import EditHobby from './component/EditHobby';
 import AdminHome from './pages/Adminhome';
 import EditUser from './pages/EditUser';
 import ViewUser from './pages/ViewUser';
+import Userhome from './user/Userhome';
+import EditMe from './user/EditMe';
+import AssignHobby from './pages/AssignHobby';
+import MyHobbies from './user/MyHobbies';
 
 function App() {
   return (
@@ -24,6 +28,11 @@ function App() {
         <Route path='/adminhome' element={<AdminHome/>}></Route>
         <Route path='/edituser/:id' element={<EditUser/>}></Route> 
         <Route path='/viewuser/:id' element={<ViewUser/>}></Route>
+        <Route path='/userhome' element={<Userhome/>}></Route>
+        <Route path='/editme' element={<EditMe/>}></Route>
+        <Route path='/assign/:id' element={<AssignHobby/>}></Route>
+        <Route path='/myhobbies' element={<MyHobbies/>}></Route>
+        
       </Routes>
     </BrowserRouter>
 

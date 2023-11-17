@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-function ViewUser() {
-  const { id } = useParams();
+function Userhome() {
+   
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({
     name: "",
@@ -13,22 +13,25 @@ function ViewUser() {
     homeNum: "",
     mobileNum: "",
   });
+  const [uid,setUid] = useState();
   const [hdata, setHData] = useState([]);
   const [hobbyDetails, setHobbyDetails] = useState({
     name: "",
     description: "",
   });
+  axios.defaults.withCredentials = true;
   useEffect(()=>{
     axios
          .get("http://localhost:8080")
          .then((res)=>{
           if(
-            res.data.Valid && (res.data.Role ==="admin"))
+            res.data.Valid && (res.data.Role ==="user"))
             {
-              console.log("welcome admin");
+              console.log("welcome user");
+              setUid(res.data.Userid);
             }
           else{
-            console.log("Not a admin");
+            console.log("Not a user",res.data.Role);
             navigate("/");
           }
          })
@@ -36,8 +39,9 @@ function ViewUser() {
 
   },[]);
   useEffect(() => {
+    console.log("uid : ",uid);
     axios
-      .get(`http://localhost:8080/get_a_user/${id}`)
+      .get(`http://localhost:8080/get_a_user/${uid}`)
       .then((res) => {
         setUserDetails({
           name: res.data.name || "",
@@ -53,7 +57,7 @@ function ViewUser() {
       });
 
     axios
-      .get(`http://localhost:8080/userhobby/${id}`)
+      .get(`http://localhost:8080/userhobby/${uid}`)
       .then((res) => {
         setHData(res.data);
         
@@ -64,8 +68,13 @@ function ViewUser() {
       .catch((error) => {
         console.error("Error fetching hobby data from backend:", error);
       });
-  }, [id]);
-
+  }, [uid]);
+  const handleEdit = () =>{
+    navigate("/editme");
+  } 
+  const handleHobbies = () =>{
+    navigate("/myhobbies");
+  } 
   const getHobby = (hobbyid) => {
     axios
       .get(`http://localhost:8080/get_a_hobby/${hobbyid}`)
@@ -87,8 +96,15 @@ function ViewUser() {
   return (
     <div>
       <div>
+        <div>
+          <button onClick={handleEdit}>edit my details</button>
+        </div>
+        <div>
+          <button onClick={handleHobbies}>change my hobbies</button>
+        </div>
+        <div>
         <form>
-          
+         
           <div>
             <label htmlFor="name">Name</label>
             <input type="text" name="name" value={userDetails.name} readOnly />
@@ -143,8 +159,9 @@ function ViewUser() {
           </div>
         </form>
       </div>
+      </div>
       <div>
-        
+       
         {hdata.map((item) => (
           <form key={item.id}>
             <div>
@@ -171,4 +188,4 @@ function ViewUser() {
     </div>
   );
 }
-export default ViewUser;
+export default Userhome;

@@ -9,7 +9,23 @@ function Createhobby() {
     hobby: "",
     description: "",
   });
+  useEffect(()=>{
+    axios
+         .get("http://localhost:8080")
+         .then((res)=>{
+          if(
+            res.data.Valid && (res.data.Role ==="admin"))
+            {
+              console.log("welcome admin");
+            }
+          else{
+            console.log("Not a admin");
+            navigate("/");
+          }
+         })
+         .catch((err)=>console.log(err));
 
+  },[]);
   useEffect(() => {
     axios
       .get(`http://localhost:8080/get_a_hobby/${id}`) 

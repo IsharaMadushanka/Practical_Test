@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Validation from "./UserValidation";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [values, setValues] = useState({
@@ -10,9 +11,16 @@ function Login() {
     gender :"",
     email: "",
     password: "",
+    cpassword:"",
+    mobileNum: "",
+    homeNum: ""
   });
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [data,setData] = useState({});
+  const [selectedHobbies, setSelectedHobbies] = useState([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleInput = (event) => {
     setErrors((prev) => ({
@@ -26,14 +34,25 @@ function Login() {
   };
 
   axios.defaults.withCredentials = true;
+  
+  const handleHobbySelection = (hobbyId) => {
+    const isSelected = selectedHobbies.includes(hobbyId);
+    if (isSelected) {
+      setSelectedHobbies((prev) => prev.filter((id) => id !== hobbyId));
+    } else {
+      setSelectedHobbies((prev) => [...prev, hobbyId]);
+    }
+  };
+
   const handleSubmit = (event) => {
     console.log("handleSubmit was called");
     event.preventDefault();
     const validationErrors = Validation(values);
     setErrors(validationErrors);
-
-    if (validationErrors.password !== ""||validationErrors.name !== ""  || validationErrors.email !== "") {
-      
+    if(selectedHobbies.length == 0){
+      console.log("not selected hobbies");
+    }
+    if (selectedHobbies.length == 0||validationErrors.mobile !== ""||validationErrors.password !== ""||validationErrors.cpassword !== ""||validationErrors.name !== ""  || validationErrors.email !== "") {      
     console.log("Validation error found",validationErrors);
       return;
     }
@@ -42,7 +61,10 @@ function Login() {
       .then((res) => {
         console.log(res.data.Status);
         if (res.data.Status === "Success") {
+          console.log("response : ",res.data);
+          saveSelectedHobbies(res.data.UserId);
             alert("Success");
+            navigate("/adminhome");
         } else {
           console.log(res.data.Error);
           alert("Error ");
@@ -50,10 +72,44 @@ function Login() {
         console.log(res);
       })
       .catch((err) => console.log(err));
+
+      const saveSelectedHobbies = (userId) => {
+        const hobbyUserValues = selectedHobbies.map((hobbyId) => [userId, hobbyId]);
+      
+        axios.post("http://localhost:8080/savehobbies", { values: hobbyUserValues })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => console.log(err));
+      };
   };
+    const getHobbyNameById = (hobbyId) => {
+      const selectedHobby = data.find((hobby) => hobby.id === hobbyId);
+      return selectedHobby ? selectedHobby.name : "";
+    };
+
+  useEffect(() => {
+    axios
+        .get("http://localhost:8080/get_hobby")
+        .then((res) => {
+           
+            setData(res.data);
+        })
+        .catch((error) => {
+            console.error("Error, fetching data from backend:", error);
+        });
+    
+}, );
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
   };
 
   return (
@@ -127,6 +183,31 @@ function Login() {
             {errors.email && <span>{errors.email}</span>}
           </div>
           <div>
+              <label htmlFor="mobile">
+                <strong>Mobile Number</strong>
+              </label>
+              <input
+                type="tel"
+                maxLength={10}
+                name="mobileNum"
+                placeholder="Mobile Number"
+                onChange={handleInput}
+              />
+            </div>
+            <div>
+              <label htmlFor="homeMobile">
+                <strong>Home Mobile Number</strong>
+              </label>
+              <input
+                type="tel"
+                maxLength={10}
+                name="homeNum"
+                placeholder="Home Mobile Number"
+                onChange={handleInput}
+              />
+            </div>
+            {errors.mobile && <span>{errors.mobile}</span>}
+          <div>
             <label htmlFor="password">
               <strong>Password</strong>
               
@@ -147,13 +228,65 @@ function Login() {
             </div>
             {errors.password && <span>{errors.password}</span>}
           </div>
+          <div>
+            <label htmlFor="cpassword">
+              <strong>Confirm Password</strong>
+              
+            </label>
+            <div>
+              <input
+                name="cpassword"
+                type={showPassword ? "text" : "cpassword"}
+                placeholder="Confirm Password"
+                onChange={handleInput}
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
+            {errors.cpassword && <span>{errors.cpassword}</span>}
+          </div>
+          <button type="button" onClick={openPopup}>
+            <strong>Select Hobbies</strong>
+          </button>
+            {selectedHobbies.map((hobbyId) => (
+                <span key={hobbyId}>{getHobbyNameById(hobbyId)}</span>
+            ))} 
+
           <button type="submit">
-            <strong>Login</strong>
+            <strong>Create</strong>
           </button>
           
         </div>
       </form>
-      
+      {isPopupOpen && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>Select Hobbies</h2>
+            <form>
+              {data.map((hobby) => (
+                <div key={hobby.id}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      value={hobby.id}
+                      checked={selectedHobbies.includes(hobby.id)}
+                      onChange={() => handleHobbySelection(hobby.id)}
+                    />
+                    {hobby.name}
+                  </label>
+                </div>
+              ))}
+            </form>
+            <button type="button" onClick={closePopup}>
+              Save Selection
+            </button>
+          </div>
+        </div>
+      )}  
     </div>
   );
 }

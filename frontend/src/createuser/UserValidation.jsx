@@ -3,6 +3,7 @@ function LoginValidation(values) {
     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
     const name_pattern =  /^[a-zA-Z.\s]+$/;
+    const mobile_pattern = /^[0-9]{10}$/; 
 
     if(values.name === ""){
         errors.name = "Please enter a name !"
@@ -34,6 +35,22 @@ function LoginValidation(values) {
         errors.password = "";
     }
 
+    if (
+      values.cpassword === "" ||
+      String(values.cpassword) !== String(values.password)
+    ) { 
+      errors.cpassword = "Password mismatch";
+    } else {
+      errors.cpassword = "";
+    }
+
+    if (!mobile_pattern.test(values.mobileNum) ) {
+      errors.mobile = "Mobile number format is invalid";
+    } else if (!mobile_pattern.test(values.homeNum)) {
+      errors.mobile = "Home number format is invalid";
+    } else {
+      errors.mobile = "";
+    }
 
   return errors;
   }

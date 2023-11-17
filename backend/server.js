@@ -21,13 +21,13 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(
   session({
-    secret: "secret", //a secret key used to encrypt the session cookie
+    secret: "secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
       secure: false,
       maxAge: 1000 * 60 * 60 * 24,
-    }, //set the session cookie properties
+    }, 
   })
 );
 const db = mysql.createConnection({
@@ -53,7 +53,8 @@ app.post("/login", (req, res) => {
       req.session.email = result[0].email;
       req.session.role = result[0].role;
       req.session.name = result[0].name;
-         
+      req.session.uid = result[0].id;
+
       bcrypt.compare(
         req.body.password.toString(),
         result[0].hash,
@@ -64,6 +65,8 @@ app.post("/login", (req, res) => {
               Status: "Success",
               Name : req.session.name,
               Email: req.session.email,
+              Role: req.session.role,
+              Userid : req.session.uid
             });
           } else {
             return res.json({ Error: "Password not matched" });
@@ -79,28 +82,30 @@ app.post("/login", (req, res) => {
 
 app.post("/createuser",(req, res) => {
 
-    const sql = "INSERT INTO `user` (`name`,`role`, `email`, `age`, `sex`,`hash`) VALUES(?)";
+    const sql = "INSERT INTO `user` (`name`,`role`, `email`, `age`, `sex`,`mobileNum`,`homeNum`,`hash`) VALUES(?)";
       bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
       if (err) return res.json({ Error: "Error for hashing password" });
       const values = [
         req.body.name,
-        "admin",
+        "user",
         req.body.email,
         req.body.age,
         req.body.gender,
-        hash,
+        req.body.mobileNum,
+        req.body.homeNum,
+        hash,   
       ];
       console.log(values);
       db.query(sql, [values], (err, result) => {
-        
+        //console.log("InsertID : ",result.insertId);
       if (err){ 
         if (err.code === 'ER_DUP_ENTRY' ) { 
           return res.json({ Error: "Duplicate entry. Please make sure name and gmail doesn't belong to a existing user." });
       }else{console.log("error : ",err);
       return res.json({ Error: "Error occur in server" });}
           
-                }
-        return res.json({ Status: "Success" });
+        }
+        return res.json({ Status: "Success" ,UserId:result.insertId});
       });
     });
   } 
@@ -184,11 +189,41 @@ app.get("/get_a_hobby/:id", (req, res) => {
   });
 });
 app.get("/get_a_user/:id", (req, res) => {
+  
   const userId = req.params.id;
   const sql = "SELECT * FROM user WHERE id = ?";
   db.query(sql, [userId], (err, data) => {
     if (err) return res.json({ Error: "Error in server" });
     return res.json(data[0]); 
+  });
+});
+app.get("/get_a_userme/:id", (req, res) => {
+  
+  const userId = req.session.uid;
+  const sql = "SELECT * FROM user WHERE id = ?";
+  db.query(sql, [userId], (err, data) => {
+    if (err) return res.json({ Error: "Error in server" });
+    return res.json(data[0]); 
+  });
+});
+app.get("/userhobby/:id", (req, res) => {
+  const userId = req.params.id;
+  
+  const sql = "SELECT * FROM user_hobby WHERE user_id = ?";
+  db.query(sql, [userId] , (err, data) => {
+    
+    if (err) return res.json({ Error: "Error in server" });
+    return res.json(data); 
+  });
+});
+app.get("/userhobbyme", (req, res) => {
+  const userId = req.session.uid;
+  
+  const sql = "SELECT * FROM user_hobby WHERE user_id = ?";
+  db.query(sql, [userId] , (err, data) => {
+    
+    if (err) return res.json({ Error: "Error in server" });
+    return res.json(data); 
   });
 });
 app.post("/updatehobby/:id", (req, res) => {
@@ -207,10 +242,10 @@ app.post("/updatehobby/:id", (req, res) => {
 });
 app.post("/updateuser/:id", (req, res) => {
   const userId = req.params.id;
-  const { name, email, age, gender } = req.body;
-  const sql = "UPDATE user SET name = ?, email = ?,age = ?,sex = ? WHERE id = ?";
-  const values = [name, email, age, gender, userId];
-  console.log(values);
+  const { name, email, age, gender,mobileNum,homeNum } = req.body;
+  const sql = "UPDATE user SET name = ?, email = ?,age = ?,sex = ?,mobileNum=?,homeNum=? WHERE id = ?";
+  const values = [name, email, age, gender, mobileNum,homeNum,userId];
+  console.log("Values : ",values);
   db.query(sql, values, (err, result) => {
     if (err) {
       console.error("Error updating user:", err);
@@ -219,9 +254,119 @@ app.post("/updateuser/:id", (req, res) => {
     return res.json({ Status: "Success" });
   });
 });
+app.post("/updateuserme", (req, res) => {
+  const userId = req.session.uid;
+  const { name, email, age, gender,mobileNum,homeNum } = req.body;
+  const sql = "UPDATE user SET name = ?, email = ?,age = ?,sex = ?,mobileNum=?,homeNum=? WHERE id = ?";
+  const values = [name, email, age, gender, mobileNum,homeNum,userId];
+  console.log("Values : ",values);
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error("Error updating user:", err);
+      return res.json({ Error: "Error updating user" });
+    }
+    return res.json({ Status: "Success" });
+  });
+});
+app.post("/savehobbies", (req, res) => {
+  const sql = "INSERT INTO `user_hobby` (`user_id`, `hobbies_id`) VALUES ?";
+  const values = req.body.values;
+
+  db.query(sql, [values], (err, result) => { 
+    if (err) {
+      console.log("error: ", err);
+      return res.json({ Error: "Error occur in server" });
+    }
+    return res.json({ Status: "Success" });
+  });
+});
+app.post("/savehobbieslater", (req, res) => {
+  const sql = "INSERT INTO `user_hobby` (`user_id`, `hobbies_id`) VALUES ?";
+  const values = req.body.values;
+  
+  console.log("i was called ");
+  console.log(values[0][0]);
+  const sqls = "DELETE FROM user_hobby WHERE user_id = ?";
+  db.query(sqls, [values[0][0]] , (err, data) => {
+    
+    if (err) {
+      console.log(err);
+      return res.json({ Error: "Error in server" });}
+    else{
+      db.query(sql, [values], (err, result) => { 
+        if (err) {
+          console.log("error: ", err);
+          return res.json({ Error: "Error occur in server" });
+        }
+        return res.json({ Status: "Success" });
+      });
+    } 
+  });
+});
+
+app.post("/updatepassword/:id",(req, res) => {
+   const userId = req.params.id
+  const sql = "UPDATE user SET hash = ? WHERE id = ?";
+    bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
+    if (err) return res.json({ Error: "Error for hashing password" });
+    const values = [
+      hash,
+      userId  
+    ];
+    console.log(values); 
+    db.query(sql, values, (err, result) => {
+     
+    if (err){console.log("error : ",err);
+    return res.json({ Error: "Error occur in server" });
+        
+      }
+      return res.json({ Status: "Success" });
+    });
+  });
+} 
+);
+
+app.post("/updatepassword",(req, res) => {
+  const userId = req.session.uid
+ const sql = "UPDATE user SET hash = ? WHERE id = ?";
+   bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
+   if (err) return res.json({ Error: "Error for hashing password" });
+   const values = [
+     hash,
+     userId  
+   ];
+   console.log(values); 
+   db.query(sql, values, (err, result) => {
+    
+   if (err){console.log("error : ",err);
+   return res.json({ Error: "Error occur in server" });
+       
+     }
+     return res.json({ Status: "Success" });
+   });
+ });
+} 
+);
+app.get("/logout", (req, res) => {
+  req.session.destroy(function (err) {
+    res.clearCookie("connect.sid");
+    console.log("User logout...");
+    res.redirect("/"); 
+  });
+});
 
 app.get("/", (req, res) => {
-    res.send("Hello, this is backend!");
+
+  if(req.session.role){
+    return res.json({
+      Valid : true,
+      Role :req.session.role,
+      Userid : req.session.uid
+    });
+  }
+  else{
+    return res.json({Valid:false});
+  }
   });
 
 app.listen(8080,()=>{

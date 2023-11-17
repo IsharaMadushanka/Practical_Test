@@ -41,9 +41,12 @@ function Login() {
       .post("http://localhost:8080/login", values)
       .then((res) => {
         console.log(res.data.Status);
-        if (res.data.Status === "Success") {
-          navigate("/home");
-        } else {
+        if (res.data.Status === "Success" && res.data.Role ==="admin") {
+          navigate("/adminhome");
+        } 
+        else if (res.data.Status === "Success" && res.data.Role ==="user") {
+          navigate("/userhome");
+        }else {
           console.log(res.data.Error);
           alert("Error : Check email and password again");
         }

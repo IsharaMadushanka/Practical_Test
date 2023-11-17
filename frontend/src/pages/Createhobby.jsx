@@ -18,6 +18,25 @@ function Createhobby() {
         }));
     }
     axios.defaults.withCredentials = true;
+   
+    useEffect(()=>{
+      axios
+           .get("http://localhost:8080")
+           .then((res)=>{
+            if(
+              res.data.Valid && (res.data.Role ==="admin"))
+              {
+                console.log("welcome admin");
+              }
+            else{
+              console.log("Not a admin");
+              navigate("/");
+            }
+           })
+           .catch((err)=>console.log(err));
+
+    },[]);
+    
     const handleSubmit = async (event) =>{
       event.preventDefault();
       axios
