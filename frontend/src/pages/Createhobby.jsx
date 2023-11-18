@@ -52,7 +52,7 @@ function Createhobby() {
           navigate("/hobby");
         } else {
           console.log(res.data.Error);
-          alert("Error : Check email and password again");
+          alert("Error : No duplicates are allowed ");
         }
         
       })

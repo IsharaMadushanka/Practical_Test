@@ -41,35 +41,36 @@ function Userhome() {
 
   },[]);
   useEffect(() => {
-    console.log("uid : ",uid);
-    axios
-      .get(`http://localhost:8080/get_a_user/${uid}`)
-      .then((res) => {
-        setUserDetails({
-          name: res.data.name || "",
-          email: res.data.email || "",
-          gender: res.data.sex || "",
-          age: res.data.age || "",
-          homeNum: res.data.homeNum || "",
-          mobileNum: res.data.mobileNum || "",
+    if(uid){
+      console.log("uid : ",uid);
+      axios
+        .get(`http://localhost:8080/get_a_user/${uid}`)
+        .then((res) => {
+          setUserDetails({
+            name: res.data.name || "",
+            email: res.data.email || "",
+            gender: res.data.sex || "",
+            age: res.data.age || "",
+            homeNum: res.data.homeNum || "",
+            mobileNum: res.data.mobileNum || "",
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching user data from backend:", error);
         });
-      })
-      .catch((error) => {
-        console.error("Error fetching user data from backend:", error);
-      });
-
-    axios
-      .get(`http://localhost:8080/userhobby/${uid}`)
-      .then((res) => {
-        setHData(res.data);
-        
-        res.data.forEach((item) => {
-          getHobby(item.hobbies_id);
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching hobby data from backend:", error);
-      });
+  
+      axios
+        .get(`http://localhost:8080/userhobby/${uid}`)
+        .then((res) => {
+          setHData(res.data);
+          
+          res.data.forEach((item) => {
+            getHobby(item.hobbies_id);
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching hobby data from backend:", error);
+        });}
   }, [uid]);
   
   const getHobby = (hobbyid) => {
