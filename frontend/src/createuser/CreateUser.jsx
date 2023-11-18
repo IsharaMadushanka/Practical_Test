@@ -68,7 +68,7 @@ function Login() {
             navigate("/adminhome");
         } else {
           console.log(res.data.Error);
-          alert("Error ");
+          alert(res.data.Error);
         }
         console.log(res);
       })

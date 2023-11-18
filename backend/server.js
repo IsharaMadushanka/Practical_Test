@@ -163,7 +163,14 @@ app.get("/hobby_delete/:id",(req,res)=>{
   const sql = "DELETE FROM hobbies WHERE id = ?";
   try{db.query(sql,[hobbyId] ,(err, data) => {
    if (err) return res.json(data);
-   else return res.json(data);
+   else {
+    const sqls = "DELETE FROM user_hobby WHERE hobbies_id = ?";
+      db.query(sqls,[hobbyId] ,(err, data) => {
+      if (err) return res.json(data);
+      else{
+        console.log("user_hobby too cleaned");
+      }});
+    return res.json(data);}
  });}
  catch(err){
    console.log("server error");
@@ -174,7 +181,14 @@ app.get("/user_delete/:id",(req,res)=>{
   const sql = "DELETE FROM user WHERE id = ?";
   try{db.query(sql,[userId] ,(err, data) => {
    if (err) return res.json(data);
-   else return res.json(data);
+   else {
+    const sqls = "DELETE FROM user_hobby WHERE user_id = ?";
+    db.query(sqls,[userId] ,(err, data) => {
+      if (err) return res.json(data);
+      else{
+        console.log("user_hobby too cleaned");
+      }});
+    return res.json(data);}
  });}
  catch(err){
    console.log("server error");
