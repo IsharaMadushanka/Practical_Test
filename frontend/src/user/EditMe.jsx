@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Validation from "../createuser/UserValidation";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import UserHeader from "../component/UserHeader"
+import "../css/editme.css"
 
 function EditUser() {
 
@@ -165,10 +167,11 @@ const getHobby = (hobbyid) => {
   };
 
   return (
-    <div>
-      <div>
-        <div></div>
-        <form action="" onSubmit={handleSubmit}>
+    <div className="editmecontainer">
+      <UserHeader className="editmeLeft"/>
+      <div className="editmeMiddle">
+       
+        <form action=""  className="editmeform"  onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name">Name</label>
             <input
@@ -254,39 +257,11 @@ const getHobby = (hobbyid) => {
           </div>
           {errors.mobile && <span>{errors.mobile}</span>}
 
-          <button type="submit">
+          <button type="submit" className="editmebutton">
             <strong>Update</strong>
           </button>
         </form>
-      </div>
-
-      <div>
-       
-        {hdata.map((item) => (
-          <form key={item.id}>
-            <div>
-              <label htmlFor={`hobbyName-${item.hobbies_id}`}>Hobby Name</label>
-              <input
-                type="text"
-                name={`hobbyName-${item.hobbies_id}`}
-                value={hobbyDetails[item.hobbies_id]?.name || ""}
-                readOnly
-              />
-            </div>
-            <div>
-              <label htmlFor={`hobbyDescription-${item.hobbies_id}`}>Description</label>
-              <input
-                type="text"
-                name={`hobbyDescription-${item.hobbies_id}`}
-                value={hobbyDetails[item.hobbies_id]?.description || ""}
-                readOnly
-              />
-            </div>
-          </form>
-        ))}
-      </div>
-
-      <form action="" onSubmit={handlePassword}>
+        <form action="" onSubmit={handlePassword} className="editmeform">
         <div>
           <input
             name="password"
@@ -294,7 +269,7 @@ const getHobby = (hobbyid) => {
             placeholder="Password"
             onChange={handleInput}
           />
-          <button
+          <button className="editmebutton"
             type="button"
             onClick={togglePasswordVisibility}
           >
@@ -309,6 +284,7 @@ const getHobby = (hobbyid) => {
             onChange={handleInput}
           />
           <button
+          className="editmebutton"
             type="button"
             onClick={togglePasswordVisibility}
           >
@@ -316,8 +292,36 @@ const getHobby = (hobbyid) => {
           </button>
           {errors.cpassword && <span>{errors.cpassword}</span>}
         </div>
-        <button type="submit">Change Password</button>
+        <button type="submit" className="editmebutton">Change Password</button>
       </form>
+      
+      </div>
+
+      <div className="editmeright">
+    
+      {hdata.map((item) => (
+          <form key={item.id}  className="editmeform">
+            <div>
+              <label >Hobby Name</label>
+              <input
+                type="text"
+                name={`hobbyName-${item.hobbies_id}`}
+                value={hobbyDetails[item.hobbies_id]?.name || ""}
+                readOnly
+              />
+            </div>
+            <div>
+              <label>Description</label>
+              <input
+                type="text"
+                name={`hobbyDescription-${item.hobbies_id}`}
+                value={hobbyDetails[item.hobbies_id]?.description || ""}
+                readOnly
+              />
+            </div>
+          </form>
+        ))}
+      </div>
     </div>
   );
 }

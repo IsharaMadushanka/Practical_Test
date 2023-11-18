@@ -3,6 +3,7 @@ import React, { useState,useEffect } from "react";
 import Validation from "./UserValidation";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import "../css/create_user.css";
 
 function Login() {
   const [values, setValues] = useState({
@@ -113,10 +114,12 @@ function Login() {
   };
 
   return (
-    <div>
-      <form action="" onSubmit={handleSubmit}>
+    <div className="createUsercontain">
+      <div className="">
+      <form action="" onSubmit={handleSubmit} className="createUserform">
         
         <div>
+          <label><h2><strong>Create User</strong></h2></label>
         <div>
             <label htmlFor="name">
               <strong>Name</strong>
@@ -214,6 +217,7 @@ function Login() {
             </label>
             <div>
               <input
+              className="passwordcreateUser"
                 name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
@@ -235,6 +239,7 @@ function Login() {
             </label>
             <div>
               <input
+                className="passwordcreateUser"
                 name="cpassword"
                 type={showPassword ? "text" : "cpassword"}
                 placeholder="Confirm Password"
@@ -249,23 +254,24 @@ function Login() {
             </div>
             {errors.cpassword && <span>{errors.cpassword}</span>}
           </div>
-          <button type="button" onClick={openPopup}>
+          <button type="button" onClick={openPopup} className="buttoncreateUser">
             <strong>Select Hobbies</strong>
           </button>
-            {selectedHobbies.map((hobbyId) => (
-                <span key={hobbyId}>{getHobbyNameById(hobbyId)}</span>
-            ))} 
-
-          <button type="submit">
+            
+          <button type="submit" className="buttoncreateUser">
             <strong>Create</strong>
           </button>
           
         </div>
-      </form>
+      </form></div>
       {isPopupOpen && (
-        <div className="popup">
+        <div className="popupcreateUser">
           <div className="popup-content">
             <h2>Select Hobbies</h2>
+            {selectedHobbies.map((hobbyId) => (
+                <span key={hobbyId} className="hobbycreateUser">{getHobbyNameById(hobbyId)}</span>
+            ))} 
+
             <form>
               {data.map((hobby) => (
                 <div key={hobby.id}>
@@ -281,7 +287,7 @@ function Login() {
                 </div>
               ))}
             </form>
-            <button type="button" onClick={closePopup}>
+            <button type="button" onClick={closePopup} className="buttoncreateUser">
               Save Selection
             </button>
           </div>

@@ -1,0 +1,22 @@
+.createUserform{
+    border: 2px solid #0d987d;
+    margin-left: 450px;
+}
+.createUsercontain{
+    display: flex;
+    flex-direction: row;
+}
+.popupcreateUser{
+    margin-left:250px ;
+}
+.hobbycreateUser{
+    color: #0d987d;
+    margin: 2px;
+}
+.buttoncreateUser{
+    margin: 2px;
+    color: #016551;
+}
+.passwordcreateUser{
+    margin-left: 30px;
+}

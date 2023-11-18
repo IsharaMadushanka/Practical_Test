@@ -1,0 +1,27 @@
+.editmecontainer{
+ display: flex;
+ flex-direction: row;
+}
+.editmeLeft{
+   width: 25%;
+   float: left;
+}
+.editmeMiddle{
+    width: 40%;
+    float: auto;
+    margin-left: 250px;
+    margin-top: 50px;
+}
+.editmeright{
+    width: 35%;
+    float: right;
+    margin-top: 50px;
+}
+.editmeform{
+    border: 2px solid #0d987d;
+    padding: 5px;
+}
+.editmebutton{
+    margin:2px;
+    color:#0d987d;
+}

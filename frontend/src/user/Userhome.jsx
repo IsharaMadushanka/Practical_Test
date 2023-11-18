@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import UserHeader from "../component/UserHeader"
+import "../css/userhome.css";
 
 function Userhome() {
    
@@ -69,12 +71,7 @@ function Userhome() {
         console.error("Error fetching hobby data from backend:", error);
       });
   }, [uid]);
-  const handleEdit = () =>{
-    navigate("/editme");
-  } 
-  const handleHobbies = () =>{
-    navigate("/myhobbies");
-  } 
+  
   const getHobby = (hobbyid) => {
     axios
       .get(`http://localhost:8080/get_a_hobby/${hobbyid}`)
@@ -94,16 +91,12 @@ function Userhome() {
   };
 
   return (
-    <div>
-      <div>
-        <div>
-          <button onClick={handleEdit}>edit my details</button>
-        </div>
-        <div>
-          <button onClick={handleHobbies}>change my hobbies</button>
-        </div>
-        <div>
-        <form>
+    <div className="userhomecontain">
+      <UserHeader className="userhomeleft"  />
+
+      <div className="userhomemiddle">
+        
+        <form className="userhomeform">
          
           <div>
             <label htmlFor="name">Name</label>
@@ -159,11 +152,11 @@ function Userhome() {
           </div>
         </form>
       </div>
-      </div>
-      <div>
+      
+      <div className="userhomeright">
        
         {hdata.map((item) => (
-          <form key={item.id}>
+          <form key={item.id} className="userhomeform">
             <div>
               <label htmlFor={`hobbyName-${item.hobbies_id}`}>Hobby Name</label>
               <input

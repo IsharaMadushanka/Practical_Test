@@ -1,0 +1,29 @@
+.Viewer{
+    display: flex;
+    flex-direction: row;
+}
+.Left{
+    float: left;
+    width: 35%;
+    border: 1px solid black;
+}
+.Middle{
+    float: auto;
+    width: 35%;
+    margin-top: 50px;
+   
+    padding-left: 200px;
+}
+.Right{
+    float: right;
+    width:30%;
+    margin-top: 100px;
+    margin-right: 2px;
+    padding: 2px;
+}
+.form{
+    margin-bottom: 5px;
+}
+.hobbydesc{
+    margin-top: 5px;
+}

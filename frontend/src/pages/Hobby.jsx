@@ -55,10 +55,7 @@ function Home() {
             });
    
   };
-  const handleView = (id) => {
-    
-    navigate(`/hobby-details/${id}`);
-  };
+ 
   const handleEdit = (id) => {
    
     navigate(`/edithobby/${id}`);
@@ -92,9 +89,7 @@ function Home() {
                     <button onClick={() => handleDelete(item.id)} className="btn" >
                       Delete
                     </button>
-                    <button onClick={() => handleView(item.id)} className="btn">
-                      View
-                    </button>
+                    
                     <button onClick={() => handleEdit(item.id)} className="btn">
                       Edit
                     </button>

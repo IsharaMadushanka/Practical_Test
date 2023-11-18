@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Validation from "../createuser/UserValidation";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import Header from "../component/Header";
 
 function EditUser() {
   const { id } = useParams();
@@ -165,7 +166,7 @@ const getHobby = (hobbyid) => {
   return (
     <div>
       <div>
-        <div></div>
+        
         <form action="" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name">Name</label>
