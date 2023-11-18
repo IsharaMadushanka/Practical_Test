@@ -4,14 +4,13 @@
 }
 .Left{
     float: left;
-    width: 35%;
+    width: 30%;
     border: 1px solid black;
 }
 .Middle{
     float: auto;
     width: 35%;
     margin-top: 50px;
-   
     padding-left: 200px;
 }
 .Right{

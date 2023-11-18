@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Validation from "../createuser/UserValidation";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import Header from "../component/Header";
+import "../css/editpages.css"
 
 function EditUser() {
   const { id } = useParams();
@@ -164,10 +165,11 @@ const getHobby = (hobbyid) => {
   };
 
   return (
-    <div>
-      <div>
+    <div className="Viewer">
+      <Header className="Left"/>
+      <div className="Middle">
         
-        <form action="" onSubmit={handleSubmit}>
+        <form action="" onSubmit={handleSubmit} className="form">
           <div>
             <label htmlFor="name">Name</label>
             <input
@@ -207,6 +209,7 @@ const getHobby = (hobbyid) => {
             <div>
               <label>
                 <input
+                style={{ width:20 }}
                   type="radio"
                   name="gender"
                   value="male"
@@ -218,6 +221,7 @@ const getHobby = (hobbyid) => {
               <label>
                 <input
                   type="radio"
+                  style={{ width:20 }}
                   name="gender"
                   value="female"
                   checked={value.gender === "female"}
@@ -257,35 +261,8 @@ const getHobby = (hobbyid) => {
             <strong>Update</strong>
           </button>
         </form>
-      </div>
 
-      <div>
-       
-        {hdata.map((item) => (
-          <form key={item.id}>
-            <div>
-              <label htmlFor={`hobbyName-${item.hobbies_id}`}>Hobby Name</label>
-              <input
-                type="text"
-                name={`hobbyName-${item.hobbies_id}`}
-                value={hobbyDetails[item.hobbies_id]?.name || ""}
-                readOnly
-              />
-            </div>
-            <div>
-              <label htmlFor={`hobbyDescription-${item.hobbies_id}`}>Description</label>
-              <input
-                type="text"
-                name={`hobbyDescription-${item.hobbies_id}`}
-                value={hobbyDetails[item.hobbies_id]?.description || ""}
-                readOnly
-              />
-            </div>
-          </form>
-        ))}
-      </div>
-
-      <form action="" onSubmit={handlePassword}>
+        <form action=""className="form" onSubmit={handlePassword}>
         <div>
           <input
             name="password"
@@ -317,6 +294,35 @@ const getHobby = (hobbyid) => {
         </div>
         <button type="submit">Change Password</button>
       </form>
+      </div>
+
+      <div className="Right">
+       <h2>Hobby Name</h2>
+        {hdata.map((item) => (
+          <form key={item.id} className="form">
+            <div>
+              <label htmlFor={`hobbyName-${item.hobbies_id}`}>Hobby Names</label>
+              <input
+                type="text"
+                name={`hobbyName-${item.hobbies_id}`}
+                value={hobbyDetails[item.hobbies_id]?.name || ""}
+                readOnly
+              />
+            </div>
+            <div>
+              <label htmlFor={`hobbyDescription-${item.hobbies_id}`}>Description</label>
+              <input
+                type="text"
+                name={`hobbyDescription-${item.hobbies_id}`}
+                value={hobbyDetails[item.hobbies_id]?.description || ""}
+                readOnly
+              />
+            </div>
+          </form>
+        ))}
+      </div>
+
+      
     </div>
   );
 }

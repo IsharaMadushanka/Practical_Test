@@ -112,18 +112,20 @@ function ViewUser() {
               <label className="radio_text">
                 <input
                 className="radio_btn"
+                style={{ width:20 }}
                   type="radio"
                   name="gender"
                   value="male"
                   checked={userDetails.gender === "male"}
                   readOnly
-                  style = {{margin:0}}
+                
                 />
                 Male
               </label>
               <label className="radio_text">
                 <input
                 className="radio_btn"
+                style={{ width:20 }}
                   type="radio"
                   name="gender"
                   value="female"

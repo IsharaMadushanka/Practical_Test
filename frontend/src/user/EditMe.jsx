@@ -212,6 +212,7 @@ const getHobby = (hobbyid) => {
               <label>
                 <input
                   type="radio"
+                  style={{ width:20 }}
                   name="gender"
                   value="male"
                   checked={value.gender === "male"}
@@ -222,6 +223,7 @@ const getHobby = (hobbyid) => {
               <label>
                 <input
                   type="radio"
+                  style={{ width:20 }}
                   name="gender"
                   value="female"
                   checked={value.gender === "female"}

@@ -152,6 +152,7 @@ function Login() {
             <div>
               <label>
                 <input
+                style={{width:20}}
                   type="radio"
                   name="gender"
                   value="male"
@@ -162,6 +163,7 @@ function Login() {
               </label>
               <label>
                 <input
+                 style={{ width:20 }}
                   type="radio"
                   name="gender"
                   value="female"

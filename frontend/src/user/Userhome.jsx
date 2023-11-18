@@ -118,6 +118,7 @@ function Userhome() {
               <label>
                 <input
                   type="radio"
+                  style={{ width:20 }}
                   name="gender"
                   value="male"
                   checked={userDetails.gender === "male"}
@@ -128,6 +129,7 @@ function Userhome() {
               <label>
                 <input
                   type="radio"
+                  style={{ width:20 }}
                   name="gender"
                   value="female"
                   checked={userDetails.gender === "female"}
